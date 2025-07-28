@@ -27,13 +27,13 @@ export async function initializeDatabase() {
       )
     `)
     
-    // Add activeOrganizationId column for future organization support
+    // Add activeOrganizationId column
     try {
       db.exec(`ALTER TABLE user ADD COLUMN activeOrganizationId TEXT`)
-      console.log('Added activeOrganizationId column for future organization support')
+      console.log('Added activeOrganizationId column to user table')
     } catch (error) {
-      // Column already exists, ignore error
-      console.log('activeOrganizationId column already exists')
+      // Column might already exist, ignore error
+      console.log('activeOrganizationId column already exists or error:', error)
     }
     
     // Create account table for credentials
