@@ -133,6 +133,11 @@ The AI automatically categorizes your emails based on content analysis:
 - **Icons**: Lucide React
 
 ### Project Structure
+
+Check the design document for more details on the architecture and components.
+
+[Design Document](https://github.com/your-repo/email-organizer/DESIGN.md)
+
 ```
 src/
 ├── app/                          # Next.js App Router pages

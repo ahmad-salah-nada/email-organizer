@@ -36,10 +36,6 @@ Email Organizer is a modern web application that provides intelligent email mana
                        └─────────────────┘
 ```
 
-Check the design document for more details on the architecture and components.
-
-https://github.com/your-repo/email-organizer/DESIGN.md
-
 ### Technology Stack
 
 #### Frontend
