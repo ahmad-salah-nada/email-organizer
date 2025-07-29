@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react'
+import { Mail, Lock, User, Eye, EyeOff, RefreshCw } from 'lucide-react'
+import { clearAllBrowserCache } from '@/lib/clear-cache'
 
 export default function SignInPage() {
   const [isSignUp, setIsSignUp] = useState(false)
@@ -183,7 +184,19 @@ export default function SignInPage() {
               </button>
             </div>
 
-            <div className="text-center">
+            <div className="text-center space-y-2">
+              <button
+                type="button"
+                onClick={async () => {
+                  await clearAllBrowserCache()
+                  window.location.reload()
+                }}
+                className="text-xs text-gray-500 hover:text-gray-700 flex items-center justify-center mx-auto"
+              >
+                <RefreshCw className="h-3 w-3 mr-1" />
+                Clear browser cache (if having issues)
+              </button>
+              
               <button
                 type="button"
                 onClick={() => setIsSignUp(!isSignUp)}

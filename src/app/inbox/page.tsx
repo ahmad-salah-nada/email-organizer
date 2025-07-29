@@ -11,6 +11,7 @@ import {
   type ClassificationResult 
 } from '@/lib/email-utils'
 import { type ConnectedEmail } from '@/lib/email-connection'
+import { authClient } from '@/lib/auth-client'
 import OrganizationSelector from '@/components/OrganizationSelector'
 import EmailConnection from '@/components/EmailConnection'
 import { 
@@ -53,15 +54,21 @@ export default function InboxPage() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/auth/get-session')
-      const session = await response.json()
+      const { data: session, error } = await authClient.getSession()
       
-      if (!session?.user) {
+      if (error || !session?.user) {
+        console.log('No valid session found, redirecting to signin')
+        // Clear any potential cached auth state
+        await authClient.signOut().catch(() => {}) // Don't throw if already signed out
         router.push('/signin')
-      } else {
-        setUser(session.user)
+        return
       }
-    } catch {
+      
+      setUser(session.user)
+    } catch (error) {
+      console.error('Auth check failed:', error)
+      // Clear any potential cached auth state on error
+      await authClient.signOut().catch(() => {}) // Don't throw if already signed out
       router.push('/signin')
     }
   }
@@ -165,8 +172,15 @@ export default function InboxPage() {
   }
 
   const handleSignOut = async () => {
-    await fetch('/api/auth/sign-out', { method: 'POST' })
-    router.push('/signin')
+    try {
+      await authClient.signOut()
+      // Force a hard redirect to ensure clean state
+      window.location.href = '/signin'
+    } catch (error) {
+      console.error('Sign out error:', error)
+      // Force redirect even if sign out fails
+      window.location.href = '/signin'
+    }
   }
 
   if (loading) {

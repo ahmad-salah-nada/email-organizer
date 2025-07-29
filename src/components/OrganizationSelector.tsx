@@ -49,6 +49,7 @@ export default function OrganizationSelector() {
     } catch (err) {
       console.error('Failed to fetch organizations:', err)
       setError('Failed to load organizations')
+      // Don't redirect to signin from here - let the main page handle auth
     } finally {
       setIsLoading(false)
     }

@@ -3,21 +3,24 @@
 import { useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import { authClient } from '@/lib/auth-client'
 
 export default function HomePage() {
   const router = useRouter()
 
   const checkAuthAndRedirect = useCallback(async () => {
     try {
-      const response = await fetch('/api/auth/get-session')
-      const session = await response.json()
+      const { data: session, error } = await authClient.getSession()
       
-      if (session?.user) {
-        router.push('/inbox')
-      } else {
+      if (error || !session?.user) {
+        console.log('No session found, redirecting to signin')
         router.push('/signin')
+      } else {
+        console.log('Valid session found, redirecting to inbox')
+        router.push('/inbox')
       }
-    } catch {
+    } catch (error) {
+      console.error('Auth check error:', error)
       router.push('/signin')
     }
   }, [router])
