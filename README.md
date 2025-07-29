@@ -136,7 +136,7 @@ The AI automatically categorizes your emails based on content analysis:
 
 Check the design document for more details on the architecture and components.
 
-[Design Document](https://github.com/your-repo/email-organizer/DESIGN.md)
+[Design Document](https://github.com/ahmad-salah-nada/email-organizer/blob/c2f318fc52b9874793b9d776fb1874d1f2378841/DESIGN.md)
 
 ```
 src/
