@@ -14,7 +14,7 @@ export async function initializeDatabase() {
     // Enable foreign keys
     db.pragma('foreign_keys = ON')
     
-        // Create user table with organization support (BetterAuth compatible schema)
+    // Create user table (BetterAuth compatible schema)
     db.exec(`
       CREATE TABLE IF NOT EXISTS user (
         id TEXT PRIMARY KEY,
@@ -27,13 +27,13 @@ export async function initializeDatabase() {
       )
     `)
     
-    // Add activeOrganizationId column
-    try {
+    // Check if activeOrganizationId column exists and add it if not
+    const userColumns = db.pragma(`table_info(user)`) as Array<{ name: string }>
+    const hasActiveOrgColumn = userColumns.some((col) => col.name === 'activeOrganizationId')
+    
+    if (!hasActiveOrgColumn) {
       db.exec(`ALTER TABLE user ADD COLUMN activeOrganizationId TEXT`)
       console.log('Added activeOrganizationId column to user table')
-    } catch (error) {
-      // Column might already exist, ignore error
-      console.log('activeOrganizationId column already exists or error:', error)
     }
     
     // Create account table for credentials

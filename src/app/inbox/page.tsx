@@ -192,9 +192,7 @@ export default function InboxPage() {
               </div>
               <div>
                 <h1 className="text-xl font-semibold text-gray-900">Email Organizer</h1>
-                <OrganizationSelector 
-                  onOrganizationChange={() => {}} 
-                />
+                <OrganizationSelector />
               </div>
             </div>
             

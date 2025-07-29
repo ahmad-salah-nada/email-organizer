@@ -10,20 +10,6 @@ const database = new Database(dbPath)
 // Enable foreign keys
 database.pragma('foreign_keys = ON')
 
-// Ensure the user table has the activeOrganizationId column
-try {
-  // Check if the column exists
-  const columns = database.pragma(`table_info(user)`) as Array<{ name: string }>
-  const hasActiveOrgColumn = columns.some((col) => col.name === 'activeOrganizationId')
-  
-  if (!hasActiveOrgColumn) {
-    database.exec(`ALTER TABLE user ADD COLUMN activeOrganizationId TEXT`)
-    console.log('Added activeOrganizationId column to user table')
-  }
-} catch (error) {
-  console.log('Column setup:', error)
-}
-
 export const auth = betterAuth({
   database,
   emailAndPassword: {

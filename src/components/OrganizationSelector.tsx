@@ -8,7 +8,9 @@ interface Organization {
   id: string
   name: string
   slug: string
-  logo?: string
+  logo?: string | null
+  createdAt?: Date
+  metadata?: unknown
 }
 
 export default function OrganizationSelector() {
